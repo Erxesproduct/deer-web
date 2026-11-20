@@ -1,0 +1,36 @@
+﻿code,name,parent code
+DR,DEER brand,
+DR-GIFT,Бэлгийн карт,DR
+DR-ACC,"Малгай, ороолт",DR
+DR-ACC-1,Малгай,DR-ACC
+DR-ACC-2,"Ороолт, хүзүүвч",DR-ACC
+DR-ACC-3,Балаклава,DR-ACC
+DR-ACC-4,Эсгий гутал,DR-ACC
+DR-ACC-5,Бусад,DR-ACC
+DR-NATIONAL,Монгол хувцас,DR
+DR-NATIONAL-1,Монгол цамц,DR-NATIONAL
+DR-NATIONAL-2,Дээл,DR-NATIONAL
+DR-NATIONAL-3,Хантааз,DR-NATIONAL
+DR-NATIONAL-4,Хүрэм,DR-NATIONAL
+DR-NATIONAL-5,Кимоно,DR-NATIONAL
+DR-NATIONAL-6,Даашинз,DR-NATIONAL
+DR-NATIONAL-7,Юбка,DR-NATIONAL
+DR-NATIONAL-8,Бусад,DR-NATIONAL
+DR-OUTER,Гадуур хувцас,DR
+DR-OUTER-1,Куртка,DR-OUTER
+DR-OUTER-2,Пальто,DR-OUTER
+DR-OUTER-3,Урт кардиган,DR-OUTER
+DR-OUTER-4,Нэхий,DR-OUTER
+DR-OUTER-5,Цув,DR-OUTER
+DR-SETS,"Багц, хослол",DR
+DR-DRESS,Даашинз,DR
+DR-BOTTOM,"Өмд, юбка",DR
+DR-BOTTOM-1,Юбка,DR-BOTTOM
+DR-BOTTOM-2,Өмд,DR-BOTTOM
+DR-VEST,"Хантааз, майк",DR
+DR-TOP,"Цамц, свитер",DR
+DR-TOP-1,Кардиган,DR-TOP
+DR-TOP-2,"Свитер, худи",DR-TOP
+DR-TOP-3,Цамц,DR-TOP
+DR-TOP-4,Подволк,DR-TOP
+DR-DELIVERY,Хүргэлт,DR
