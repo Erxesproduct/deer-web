@@ -1,0 +1,528 @@
+@import "tailwindcss";
+
+/* «Winter Dream» (the shop's own New Year collection banner): the DEER logo's ink line-art deer on ivory paper, the
+   banner's deep wine, Christmas berry red and knit pine green, warm gold from the «Gua Sar» Lunar New Year campaign,
+   and frost. Forum (art-deco caps like the banner's lettering) for headlines, Great Vibes only for Latin script words
+   («Mongolia», «Winter Dream»), Manrope for text. Falling snow, a deer that draws itself, a knitted band that moves,
+   gift tags that sway. Motion stops for reduced motion. */
+@property --sweep {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@theme {
+  --color-ink: #171312;
+  --color-ink-2: #4f4643;
+  --color-ink-3: #8a7f79;
+  --color-ivory: #f7f2e8;
+  --color-paper: #efe6d6;
+  --color-line: #e2d5c1;
+  --color-snow: #fffdf8;
+  --color-wine: #5c0f17;
+  --color-wine-2: #7a1621;
+  --color-wine-d: #3b080e;
+  --color-berry: #b3202f;
+  --color-berry-l: #f8e3e1;
+  --color-pine: #1f4a3a;
+  --color-pine-2: #2c6550;
+  --color-pine-l: #e0ebe3;
+  --color-gold: #c9a45c;
+  --color-gold-d: #8a6828;
+  --color-gold-l: #f4e9cf;
+  --color-frost: #e7eef1;
+  --color-frost-d: #5d7380;
+
+  --font-display: var(--font-forum), Georgia, serif;
+  --font-sans: var(--font-manrope), system-ui, sans-serif;
+  --font-script: var(--font-vibes), cursive;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes pop {
+  0% {
+    transform: scale(0.88);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.03);
+    opacity: 1;
+  }
+  100% {
+    transform: none;
+  }
+}
+/* three layers of snow falling at different speeds (background-position only: no layout work) */
+@keyframes snow {
+  to {
+    background-position:
+      40px 600px,
+      -60px 400px,
+      20px 260px;
+  }
+}
+/* the deer draws itself: a conic mask sweeps once around the circle */
+@keyframes sweep {
+  to {
+    --sweep: 360deg;
+  }
+}
+@keyframes knit {
+  to {
+    background-position-x: -240px;
+  }
+}
+@keyframes sway {
+  0%,
+  100% {
+    transform: rotate(calc(var(--r, 4deg) * -1));
+  }
+  50% {
+    transform: rotate(var(--r, 4deg));
+  }
+}
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--t, 0deg));
+  }
+  50% {
+    transform: translateY(-10px) rotate(var(--t, 0deg));
+  }
+}
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.75) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1) rotate(45deg);
+  }
+}
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.04);
+  }
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+  body {
+    background: var(--color-ivory);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 1.04;
+    letter-spacing: 0.005em;
+    text-wrap: balance;
+  }
+  ::selection {
+    background: var(--color-gold-l);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-berry);
+    outline-offset: 3px;
+    border-radius: 10px;
+  }
+  .grid > * {
+    min-width: 0;
+  }
+}
+
+@layer components {
+  .wrap {
+    width: 100%;
+    max-width: 1320px;
+    margin-inline: auto;
+    padding-inline: 16px;
+  }
+  @media (min-width: 768px) {
+    .wrap {
+      padding-inline: 32px;
+    }
+  }
+  .script {
+    font-family: var(--font-script);
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1;
+  }
+  .display {
+    font-family: var(--font-display);
+  }
+  /* small sentence-case kicker (Chrome drops text-transform on Ө/Ү, so never uppercase Mongolian with CSS) */
+  .kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--color-gold-d);
+  }
+  .kicker::before {
+    content: "";
+    width: 26px;
+    height: 1px;
+    background: currentColor;
+  }
+  .card {
+    background: var(--color-snow);
+    border-radius: 22px;
+    box-shadow:
+      0 0 0 1px var(--color-line),
+      0 18px 40px -32px rgb(59 8 14 / 0.45);
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 50px;
+    padding: 0 24px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    transition:
+      transform 0.15s ease,
+      background-color 0.2s ease,
+      box-shadow 0.2s ease,
+      color 0.2s ease;
+  }
+  .btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+  .btn-wine {
+    background: var(--color-wine);
+    color: var(--color-snow);
+    box-shadow: 0 10px 24px -14px rgb(59 8 14 / 0.9);
+  }
+  .btn-wine:hover {
+    background: var(--color-berry);
+  }
+  .btn-gold {
+    background: linear-gradient(110deg, #b88d3e, #e2c487 45%, #b88d3e 90%);
+    background-size: 200% 100%;
+    color: var(--color-wine-d);
+    box-shadow: 0 10px 24px -14px rgb(138 104 40 / 0.9);
+  }
+  .btn-gold:hover {
+    animation: shimmer 1.2s linear;
+  }
+  .btn-light {
+    background: var(--color-snow);
+    color: var(--color-ink);
+    box-shadow: inset 0 0 0 1px var(--color-line);
+  }
+  .btn-light:hover {
+    box-shadow: inset 0 0 0 1.5px var(--color-ink);
+  }
+  .btn-ghost {
+    color: var(--color-snow);
+    box-shadow: inset 0 0 0 1px rgb(255 253 248 / 0.45);
+  }
+  .btn-ghost:hover {
+    background: rgb(255 253 248 / 0.12);
+  }
+  .btn:active:not(:disabled) {
+    transform: translateY(1px) scale(0.99);
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    min-height: 40px;
+    padding: 0 16px;
+    border-radius: 999px;
+    background: var(--color-snow);
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--color-ink-2);
+    box-shadow: inset 0 0 0 1px var(--color-line);
+    white-space: nowrap;
+    transition:
+      background-color 0.2s,
+      color 0.2s,
+      box-shadow 0.2s;
+  }
+  .chip:hover {
+    color: var(--color-ink);
+    box-shadow: inset 0 0 0 1px var(--color-ink-3);
+  }
+  .chip[aria-current="true"],
+  .chip[aria-current="page"],
+  .chip[aria-checked="true"],
+  .chip[aria-pressed="true"] {
+    background: var(--color-wine);
+    color: var(--color-snow);
+    box-shadow: none;
+  }
+  .chip[aria-disabled="true"] {
+    opacity: 0.4;
+    text-decoration: line-through;
+  }
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    border-radius: 999px;
+    padding: 3px 10px;
+    font-size: 11.5px;
+    font-weight: 700;
+    line-height: 1.45;
+    letter-spacing: 0.02em;
+  }
+  .label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .field {
+    margin-top: 6px;
+    display: block;
+    width: 100%;
+    min-height: 50px;
+    border-radius: 14px;
+    background: var(--color-ivory);
+    border: 1.5px solid var(--color-line);
+    padding: 10px 16px;
+    font-size: 16px;
+    color: var(--color-ink);
+    transition:
+      border-color 0.2s,
+      background-color 0.2s;
+  }
+  .field:focus {
+    outline: none;
+    border-color: var(--color-wine);
+    background: var(--color-snow);
+  }
+  .field[aria-invalid="true"] {
+    border-color: var(--color-berry);
+    background: var(--color-berry-l);
+  }
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .snap-row {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 16px;
+    overscroll-behavior-x: contain;
+  }
+  .snap-row > * {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+  /* the banner's wine night with a warm glow */
+  .night {
+    background:
+      radial-gradient(70% 80% at 80% 20%, rgb(179 32 47 / 0.55), transparent 60%),
+      radial-gradient(60% 70% at 10% 90%, rgb(31 74 58 / 0.5), transparent 60%),
+      linear-gradient(160deg, #6b111b 0%, #4a0b12 55%, #2c060a 100%);
+  }
+  .pine-night {
+    background:
+      radial-gradient(70% 70% at 85% 15%, rgb(201 164 92 / 0.25), transparent 60%),
+      linear-gradient(160deg, #24543f 0%, #173a2d 60%, #0f281f 100%);
+  }
+  /* paper grain on ivory */
+  .paper {
+    background-color: var(--color-ivory);
+    background-image: radial-gradient(rgb(23 19 18 / 0.035) 1px, transparent 1.2px);
+    background-size: 5px 5px;
+  }
+  /* falling snow overlay: put it on an absolutely positioned layer */
+  .snow {
+    pointer-events: none;
+    background-image:
+      radial-gradient(circle, rgb(255 255 255 / 0.95) 1.6px, transparent 2.2px),
+      radial-gradient(circle, rgb(255 255 255 / 0.7) 1.2px, transparent 1.8px),
+      radial-gradient(circle, rgb(255 255 255 / 0.5) 1px, transparent 1.4px);
+    background-size:
+      120px 120px,
+      90px 90px,
+      60px 60px;
+    background-position:
+      0 0,
+      30px 40px,
+      10px 20px;
+    animation: snow 16s linear infinite;
+  }
+  /* knitted band (Fair Isle stitches: diamonds, little deer-antler crosses, dots) */
+  .knit {
+    height: 34px;
+    background-color: var(--color-wine);
+    background-image:
+      linear-gradient(45deg, transparent 42%, var(--color-snow) 42% 58%, transparent 58%),
+      linear-gradient(-45deg, transparent 42%, var(--color-snow) 42% 58%, transparent 58%),
+      radial-gradient(circle, var(--color-gold) 2px, transparent 2.5px),
+      linear-gradient(var(--color-pine) 0 4px, transparent 4px calc(100% - 4px), var(--color-pine) calc(100% - 4px));
+    background-size:
+      24px 24px,
+      24px 24px,
+      24px 34px,
+      100% 100%;
+    background-position:
+      0 5px,
+      0 5px,
+      12px 0,
+      0 0;
+    background-repeat: repeat-x, repeat-x, repeat-x, no-repeat;
+  }
+  /* the line-art deer (logo), recoloured with a mask */
+  .deer {
+    background: currentColor;
+    -webkit-mask: url("/brand/deer-mark.png") center / contain no-repeat;
+    mask: url("/brand/deer-mark.png") center / contain no-repeat;
+  }
+  /* gift tag with a hole and string */
+  .gift-tag {
+    position: relative;
+    border-radius: 6px 6px 14px 14px;
+    clip-path: polygon(18% 0, 82% 0, 100% 14%, 100% 100%, 0 100%, 0 14%);
+  }
+  .gift-tag::before {
+    content: "";
+    position: absolute;
+    top: 9px;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    margin-left: -5px;
+    border-radius: 50%;
+    background: var(--color-ivory);
+    box-shadow: inset 0 0 0 2px rgb(0 0 0 / 0.15);
+  }
+  .gold-text {
+    background: linear-gradient(100deg, #b88d3e 0%, #f0d9a2 40%, #b88d3e 60%, #e9cd8f 100%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+@layer utilities {
+  .rise {
+    animation: rise 0.5s ease both;
+  }
+  .pop-in {
+    animation: pop 0.35s ease both;
+  }
+  .draw {
+    -webkit-mask:
+      conic-gradient(from 200deg, #000 var(--sweep), transparent 0),
+      url("/brand/deer-mark.png") center / contain no-repeat;
+    -webkit-mask-composite: source-in;
+    mask:
+      conic-gradient(from 200deg, #000 var(--sweep), transparent 0) intersect,
+      url("/brand/deer-mark.png") center / contain no-repeat;
+    animation: sweep 2.6s cubic-bezier(0.6, 0, 0.3, 1) 0.2s both;
+  }
+  .knit-move {
+    animation: knit 9s linear infinite;
+  }
+  .sway {
+    transform-origin: 50% 0;
+    animation: sway 4.5s ease-in-out infinite;
+  }
+  .float {
+    animation: float 6s ease-in-out infinite;
+  }
+  .shimmer {
+    animation: shimmer 4s linear infinite;
+  }
+  .marquee {
+    animation: marquee 38s linear infinite;
+  }
+  .twinkle {
+    animation: twinkle 3s ease-in-out infinite;
+  }
+  .breathe {
+    animation: breathe 5s ease-in-out infinite;
+  }
+  .js .reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition:
+      opacity 0.7s ease var(--d, 0ms),
+      transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) var(--d, 0ms);
+  }
+  .js .reveal.in {
+    opacity: 1;
+    transform: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .rise,
+    .pop-in,
+    .snow,
+    .draw,
+    .knit-move,
+    .sway,
+    .float,
+    .shimmer,
+    .marquee,
+    .twinkle,
+    .breathe,
+    .btn-gold:hover {
+      animation: none !important;
+    }
+    .draw {
+      --sweep: 360deg;
+    }
+    .js .reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
