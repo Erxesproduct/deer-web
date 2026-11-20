@@ -81,3 +81,25 @@ asks customers to send a payment screenshot in page chat to get an eBarimt; with
 2. Register for **PosAPI 3.0** (ebarimt.mn) and install the PosAPI service.
 3. **Settings → eBarimt**: PosAPI URL, TIN, district code, VAT switches; assign it to the website pipeline.
 4. For every paid order: issue the receipt once (goods + delivery fee) and send the lottery number.
+
+## 1.4 Delivery zones, fees and order statuses
+
+Website (done), from the two Zochil delivery options, delivery rule, terms and FAQ:
+
+| Zochil | Website |
+| --- | --- |
+| «Төвийн бүс» **10,000₮**, limit 200,000₮: west 1-р хороолол, east Офицер, north Баянбүрд, south Зайсан | 10,000₮; **free when the goods come to more than 200,000₮** (exactly 200,000₮ still pays) |
+| «Алслагдсан бүс» **15,000₮**, limit 300,000₮: Яармаг, Ботаник, Таван шар, Орбит, 5 буудал, Хайлааст, Дарь эх | 15,000₮; free over 300,000₮ |
+| Delivery rule: next day after confirmation, 8–24 h, by a delivery company, no timed delivery | shown in the ticker, hero, home, every product page, checkout, /info and the order note |
+| Terms + FAQ: no returns on sale items; full-price items exchanged within 24 h at a branch, tags on, no stains or smells | required checkbox at checkout; /info; product page (sale items get a warning) |
+| Countryside switch on, no option or fee | not offered online; call 7014-1889 first (open question 1) |
+
+The customer picks the zone at checkout; the server checks it and computes the fee itself.
+
+erxes:
+
+1. Import `docs/erxes/deer-delivery.csv`: `DR-DELIVERY-CENTER` 10,000₮ and `DR-DELIVERY-FAR` 15,000₮.
+2. **Sales → Boards → «Онлайн захиалга» → pipeline «Вэбсайт»**, stages (as on the website):
+   Төлбөр хүлээгдэж байна → Баталгаажсан → Бэлэг шиг савлаж байна → Хүргэлтэд гарсан → Хүргэгдсэн, plus Цуцлагдсан.
+3. **Frontline → Forms → (order form) → Settings**: create a sales card in «Төлбөр хүлээгдэж байна» for every
+   submission. Staff move it to «Баталгаажсан» when the QPay invoice shows paid. The order text carries the zone.

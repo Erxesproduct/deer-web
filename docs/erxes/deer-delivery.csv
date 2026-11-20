@@ -1,0 +1,3 @@
+﻿code,name,category code,type,unit price,source
+DR-DELIVERY-CENTER,"Хүргэлт: Төвийн бүс (Баруун тийш 1-р хороолол, Зүүн тийш Офицер, Хойд зүгт Баянбүрд, Урагш Зайсан)",DR-DELIVERY,service,10000,Zochil delivery option 3016; free when the goods come to more than 200000₮.
+DR-DELIVERY-FAR,"Хүргэлт: Алслагдсан бүс (Яармаг, Ботаник, Таван шар, Орбит, 5 буудал, Хайлааст, Дарь эх)",DR-DELIVERY,service,15000,Zochil delivery option 474; free when the goods come to more than 300000₮.
