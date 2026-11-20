@@ -51,3 +51,21 @@ Steps:
 4. Spot-check 10 products (price, size, colour) against deer.mn.
 5. Gift cards (100,000₮–250,000₮) are sold as products. How they are redeemed (online code or in store) is open
    question 5; until then the card is handed over at the branch.
+
+## 1.2 Payment (QPay)
+
+Zochil rule: 100% payment confirms the order, then it is delivered. Zochil has QPay (qpay2, Khan) on, but its checkout
+status is not enabled. The website:
+
+- records the order in erxes first, then creates a QPay invoice with the erxes payment plugin (`generateInvoiceUrl`,
+  public). The customer pays on the erxes payment page and returns to `/order/<reference>`, which asks `invoicesCheck`
+  every 5 s.
+- never asks for money for an order staff cannot see. Pocket and MonPay are not offered (exposed credentials must be
+  rotated first, and they are not part of this brief).
+
+Steps:
+
+1. Get the shop's own QPay merchant credentials (`client_id`, `client_secret`, `invoice_code`) (open question 3).
+2. **Settings → Payments → Add → QPay (v2)**: enter them. Make a 100₮ test invoice in erxes.
+3. Copy the payment method's `_id` into Vercel as `ERXES_PAYMENT_IDS`.
+4. **Not yet tested** against a real QPay merchant. Do not call payments working until step 2 and 1.5 pass.
