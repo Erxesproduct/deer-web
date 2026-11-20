@@ -103,3 +103,44 @@ erxes:
    Төлбөр хүлээгдэж байна → Баталгаажсан → Бэлэг шиг савлаж байна → Хүргэлтэд гарсан → Хүргэгдсэн, plus Цуцлагдсан.
 3. **Frontline → Forms → (order form) → Settings**: create a sales card in «Төлбөр хүлээгдэж байна» for every
    submission. Staff move it to «Баталгаажсан» when the QPay invoice shows paid. The order text carries the zone.
+
+## 1.5 Test order from cart to receipt
+
+**Verified on a local production build:** `npm run test:order -- http://127.0.0.1:3021`: **all 35 checks passed**:
+empty cart, unknown product, numeric id, sold-out refused, more than the stock refused, 10,000₮ centre fee, 15,000₮ far
+fee, an amount free in the centre but charged in the far zone, zone required, unknown zone refused, free delivery over
+200,000₮, exactly 200,000₮ still charged, a variant priced by its own id, terms required (boolean only), district /
+khoroo / address, QPay accepted, transfer and unknown payment refused, company registry, phone, email, quantity limit,
+the browser's price ignored, same checkout key → same reference, honeypot, payment check 400 / 503. Without erxes the
+API answers `503 not_configured`; the checkout then shows the phone number and keeps the cart. `--send` was **not
+run** (env vars not set). No payment was made.
+
+Steps for the real test (authorized credentials only):
+
+1. **Frontline → Forms → Create** «Вэбсайт захиалга» with fields Нэр, Утас, Имэйл, Захиалга; copy the form id and the
+   field ids into `ERXES_ORDER_FORM_ID` / `ERXES_ORDER_FIELD_IDS`. Set `ERXES_API_URL`, `ERXES_PAYMENT_IDS`. Redeploy.
+2. `npm run test:order -- https://<production url> --send`: one order, two items.
+3. Pay the invoice only with QPay's test merchant or with explicit authorization for a real charge; check that
+   `/order/<reference>` shows «Төлбөр төлөгдлөө», move the card, issue the eBarimt, mark delivered, void the test.
+
+## Permissions (erxes)
+
+- Staff who handle orders: Sales (cards), Forms (submissions), Payments (view invoices), eBarimt (issue).
+- Only the owner: Settings → Payments, Settings → eBarimt, product import.
+- The website uses only public erxes mutations; it needs no admin token.
+
+---
+
+## Open questions for the shop
+
+1. **Countryside**: the Zochil countryside switch is on, but there is no option. Fee and carrier for aimags? And
+   addresses in Ulaanbaatar outside both zones?
+2. **Zone borders**: which zone for an address between the listed landmarks (for example Зайсан vs. Яармаг)?
+3. **QPay merchant**: Zochil's QPay checkout is not enabled. The shop's own QPay merchant?
+4. **Stock**: Zochil counts stock per product, so sizes and colours share one number. Real stock per variant?
+5. **Gift cards**: can a gift card be used online, and how is its code checked?
+6. **Black Friday**: Zochil shows a «BLACK FRIDAY» campaign. Are its prices the same as the «before / now» prices
+   exported here, and when does it end?
+7. **TIN / PosAPI** for eBarimt.
+8. **Domain**: point deer.mn at the new site when ready.
+9. **Exposed credentials**: rotate the Pocket credentials and the Facebook page token (see the warning at the top).
